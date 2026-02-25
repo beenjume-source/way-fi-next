@@ -14,15 +14,15 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { name, phone, email, company, date, intent } = body;
 
-        // 1. Guardar en Supabase (Usando columnas de 01_initial_schema.sql)
+        // 1. Guardar en Supabase (Usando columnas reales de la BD)
         const { data, error } = await supabase
             .from('leads')
             .upsert([
                 {
                     full_name: name,
                     phone: phone,
-                    email: email, // UNIQUE en la BD
-                    company: company,
+                    email: email,
+                    notes: `Empresa: ${company} | Fecha: ${date}`,
                     intent: intent || 'Auditoría Solicitada',
                     status: 'new'
                 }
