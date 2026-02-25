@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Way-FI | Ecosistemas con Agentes Inteligentes",
-  description: "Desarrollo de Software + Automatización n8n + Ads. Una arquitectura unificada.",
+  title: "Wayfia | Ecosistemas Digitales con IA",
+  description: "Agencia de Ecosistemas Digitales: Desarrollo de Software, Automatización con n8n y Agentes de IA Inteligentes. Potenciamos tu empresa con tecnología de vanguardia.",
 };
 
 export default function RootLayout({
