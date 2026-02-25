@@ -29,10 +29,10 @@ const plans = [
         duration: 'MXN / DÍA',
         description: 'Menos de lo que cuesta una comida de negocios para automatizar toda tu agencia.',
         features: [
-            'Inversión mensual: $28,500 MXN',
             '5 Workflows Autónomos',
             'IA Multi-Agente',
-            'Soporte Prioritario'
+            'Soporte Prioritario',
+            'Dashboard de KPIs en Vivo'
         ],
         icon: Crown,
         color: 'from-purple-500 to-pink-500',
@@ -42,14 +42,14 @@ const plans = [
     {
         name: 'Custom Core',
         type: 'Fijo',
-        price: '$130',
+        price: '$260',
         duration: 'MXN / DÍA*',
-        description: 'Sé dueño de tu tecnología por el precio de un café diario.',
+        description: 'Sé dueño de tu tecnología por el precio de un desayuno premium.',
         features: [
-            'Pago único: $95,000 MXN',
-            '*Proyectado a 24 meses',
+            'Propiedad Intelectual 100%',
             'Código Fuente Propio',
-            'Infraestructura Privada'
+            'Infraestructura Privada',
+            'Sin Cuotas Mensuales'
         ],
         icon: Shield,
         color: 'from-amber-400 to-orange-500',
