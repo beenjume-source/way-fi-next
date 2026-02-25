@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, X, Send, Calendar, CreditCard, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Bot, X, Send, Calendar, CreditCard, ChevronRight, CheckCircle2, MessageSquare } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface Message {
@@ -206,7 +206,7 @@ export default function ConciergeBot() {
                                                     />
                                                 </div>
                                                 <button
-                                                    onClick={() => {
+                                                    onClick={async () => {
                                                         const name = (document.getElementById('contact_name') as HTMLInputElement).value;
                                                         const company = (document.getElementById('contact_company') as HTMLInputElement).value;
                                                         const phone = (document.getElementById('contact_whatsapp') as HTMLInputElement).value;
@@ -217,22 +217,58 @@ export default function ConciergeBot() {
 
                                                         setMessages(prev => [...prev, {
                                                             role: 'bot',
-                                                            text: `¡Perfecto ${name}! He registrado la solicitud de auditoría para ${company}. Nos pondremos en contacto contigo a la brevedad.`,
+                                                            text: `¡Perfecto ${name}! Estoy procesando tu solicitud de auditoría para ${company}...`,
                                                             type: 'TEXT'
                                                         }]);
 
-                                                        // Guardar en Supabase via API
-                                                        fetch('/api/schedule', {
-                                                            method: 'POST',
-                                                            headers: { 'Content-Type': 'application/json' },
-                                                            body: JSON.stringify({ name, company, phone, email, date, intent: 'auditoria' })
-                                                        });
+                                                        try {
+                                                            // Guardar en Supabase via API
+                                                            const res = await fetch('/api/schedule', {
+                                                                method: 'POST',
+                                                                headers: { 'Content-Type': 'application/json' },
+                                                                body: JSON.stringify({ name, company, phone, email, date, intent: 'auditoria' })
+                                                            });
+
+                                                            if (res.ok) {
+                                                                confetti({
+                                                                    particleCount: 150,
+                                                                    spread: 70,
+                                                                    origin: { y: 0.6 },
+                                                                    colors: ['#00f7ff', '#bc13fe']
+                                                                });
+
+                                                                setMessages(prev => [...prev, {
+                                                                    role: 'bot',
+                                                                    text: `¡Listo! Se ha enviado la notificación. Si prefieres hablar ahora mismo, haz clic aquí:`,
+                                                                    type: 'TEXT'
+                                                                }, {
+                                                                    role: 'bot',
+                                                                    text: 'Abrir WhatsApp Directo',
+                                                                    type: 'WA_LINK',
+                                                                    data: { url: `https://wa.me/522271009744?text=Hola,%20soy%20${encodeURIComponent(name)}%20de%20${encodeURIComponent(company)}.%20Acabo%20de%20agendar%20una%20auditoría%20en%20el%20sitio%20web.` }
+                                                                }]);
+                                                            }
+                                                        } catch (e) {
+                                                            setMessages(prev => [...prev, { role: 'bot', text: 'Tuvimos un problema técnico, pero puedes contactarnos directamente aquí.', type: 'TEXT' }]);
+                                                        }
                                                     }}
                                                     className="w-full py-3 bg-cyan-600 rounded-lg text-[10px] font-extrabold hover:bg-cyan-500 text-black uppercase tracking-wider shadow-lg shadow-cyan-500/20"
                                                 >
                                                     Confirmar Solicitud de Auditoría
                                                 </button>
                                             </div>
+                                        )}
+
+                                        {m.role === 'bot' && m.type === 'WA_LINK' && (
+                                            <a
+                                                href={m.data?.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-3 flex items-center justify-center gap-2 p-3 bg-green-500/20 border border-green-500/50 rounded-xl text-green-400 font-bold text-xs hover:bg-green-500/30 transition-all"
+                                            >
+                                                <MessageSquare className="w-4 h-4" />
+                                                Contactar por WhatsApp
+                                            </a>
                                         )}
                                     </div>
                                 </div>
