@@ -21,8 +21,23 @@ export default function Navbar() {
         <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
             <div className="container mx-auto glass rounded-2xl px-8 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-6">
-                    <Link href="/" className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500">
-                        WAY-FI
+                    <Link href="/" className="relative flex items-center gap-2 group">
+                        <div className="relative w-10 h-10">
+                            <Image
+                                src="/images/way-fi/logo.png"
+                                alt="Way-FI Icon"
+                                fill
+                                className="object-contain group-hover:rotate-[360deg] transition-transform duration-1000"
+                            />
+                        </div>
+                        <div className="relative w-24 h-8 mt-1">
+                            <Image
+                                src="/images/way-fi/wayfi.png"
+                                alt="WAY-FI"
+                                fill
+                                className="object-contain"
+                            />
+                        </div>
                     </Link>
 
                     <AnimatePresence>

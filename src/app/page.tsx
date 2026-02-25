@@ -5,6 +5,7 @@ import ConciergeBot from "@/components/ConciergeBot";
 import ServicesSection from "@/components/ServicesSection";
 import PricingSection from "@/components/PricingSection";
 import TerminalLeadMagnet from "@/components/TerminalLeadMagnet";
+import AIAgents from "@/components/AIAgents";
 import { Instagram, Linkedin, Twitter, MessageSquare } from "lucide-react";
 import Image from "next/image";
 
@@ -34,6 +35,8 @@ export default function Home() {
       </section>
 
       <ServicesSection />
+
+      <AIAgents />
 
       <PricingSection />
 

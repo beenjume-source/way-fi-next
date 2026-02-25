@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, Info, Image as ImageIcon } from 'lucide-react';
 
 const FALLBACK_IMAGES = [
+    '/images/way-fi/CONSULTORA MODELO.png',
+    '/images/way-fi/MODELO N8N.png',
+    '/images/way-fi/FULL STRACK MODELO.png',
     '/images/way-fi/astro.png',
     '/images/way-fi/jaguar.png',
     '/images/way-fi/logo.png',
