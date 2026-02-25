@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         // 1. Guardar en Supabase (Usando columnas reales de la BD)
         const { data, error } = await supabase
             .from('leads')
-            .upsert([
+            .insert([
                 {
                     full_name: name,
                     phone: phone,
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
                     intent: intent || 'Auditoría Solicitada',
                     status: 'new'
                 }
-            ], { onConflict: 'email' })
+            ])
             .select();
 
         if (error) {
