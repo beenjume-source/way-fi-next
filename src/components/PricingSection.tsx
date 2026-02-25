@@ -25,14 +25,14 @@ const plans = [
     {
         name: 'Agency Focus',
         type: 'Membresía',
-        price: '$28,500',
-        duration: 'MXN / mes',
-        description: 'Ecosistema completo para agencias en crecimiento.',
+        price: '$950',
+        duration: 'MXN / DÍA',
+        description: 'Menos de lo que cuesta una comida de negocios para automatizar toda tu agencia.',
         features: [
+            'Inversión mensual: $28,500 MXN',
             '5 Workflows Autónomos',
             'IA Multi-Agente',
-            'Mantenimiento Incluido',
-            'Reportes Semanales'
+            'Soporte Prioritario'
         ],
         icon: Crown,
         color: 'from-purple-500 to-pink-500',
@@ -42,13 +42,14 @@ const plans = [
     {
         name: 'Custom Core',
         type: 'Fijo',
-        price: '$95,000',
-        duration: 'MXN Pago Único',
-        description: 'Infraestructura propietaria desplegada en tus servidores.',
+        price: '$130',
+        duration: 'MXN / DÍA*',
+        description: 'Sé dueño de tu tecnología por el precio de un café diario.',
         features: [
-            'Workflows Ilimitados',
+            'Pago único: $95,000 MXN',
+            '*Proyectado a 24 meses',
             'Código Fuente Propio',
-            'Consultoría Estratégica'
+            'Infraestructura Privada'
         ],
         icon: Shield,
         color: 'from-amber-400 to-orange-500',
