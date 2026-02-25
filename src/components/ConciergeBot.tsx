@@ -65,18 +65,6 @@ export default function ConciergeBot() {
         }
     };
 
-    const completeAction = (type: string) => {
-        if (type === 'calendar') {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#00f7ff', '#bc13fe']
-            });
-            setMessages(prev => [...prev, { role: 'bot', text: '¡Cita agendada! Te hemos enviado un correo de confirmación.' }]);
-        }
-    };
-
     return (
         <div className="fixed bottom-6 right-6 z-[100] font-sans">
             <AnimatePresence>
@@ -133,41 +121,6 @@ export default function ConciergeBot() {
                                         {m.text}
 
                                         {/* Interactive Widgets */}
-                                        {m.role === 'bot' && m.type === 'CALENDAR_WIDGET' && (
-                                            <div className="mt-4 p-3 bg-zinc-100 dark:bg-black/40 rounded-xl border border-black/5 dark:border-white/10">
-                                                <div className="grid grid-cols-2 gap-2 text-[10px] mb-3">
-                                                    {['Mañana 10:00', 'Mañana 15:00', '28 Ene 09:00', '28 Ene 11:30'].map(time => (
-                                                        <button
-                                                            key={time}
-                                                            onClick={() => completeAction('calendar')}
-                                                            className="py-2 border border-cyan-500/30 rounded-lg hover:bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-bold"
-                                                        >
-                                                            {time}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                                <div className="flex items-center gap-2 text-[10px] text-zinc-500 dark:text-zinc-400">
-                                                    <Calendar className="w-3 h-3" />
-                                                    Horarios disponibles (GMT-6)
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {m.role === 'bot' && m.type === 'STRIPE_CARD' && (
-                                            <div className="mt-4 p-4 bg-gradient-to-br from-zinc-100 to-white dark:from-zinc-900 dark:to-black rounded-xl border border-purple-500/30 shadow-md">
-                                                <div className="text-[10px] uppercase font-bold text-purple-600 dark:text-purple-400 mb-1">Plan Agency Focus</div>
-                                                <div className="text-xl font-bold mb-3 text-black dark:text-white">$1,499<span className="text-xs text-zinc-500 ml-1">/mes</span></div>
-                                                <ul className="text-[10px] space-y-1 mb-4 text-zinc-600 dark:text-zinc-400">
-                                                    <li className="flex items-center gap-2"> <CheckCircle2 className="w-3 h-3 text-cyan-500" /> 5 Workflows n8n</li>
-                                                    <li className="flex items-center gap-2"> <CheckCircle2 className="w-3 h-3 text-cyan-500" /> Lead Management Pro</li>
-                                                </ul>
-                                                <button className="w-full py-2 bg-purple-600 rounded-lg text-xs font-bold hover:bg-purple-500 flex items-center justify-center gap-2 text-white">
-                                                    <CreditCard className="w-3 h-3" />
-                                                    Contratar Ahora
-                                                </button>
-                                            </div>
-                                        )}
-
                                         {m.role === 'bot' && m.type === 'CONTACT_FORM' && (
                                             <div className="mt-4 p-4 bg-zinc-100 dark:bg-black/40 rounded-xl border border-black/5 dark:border-white/10 space-y-3">
                                                 <div className="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest mb-2">Formulario de Auditoría</div>
@@ -192,18 +145,28 @@ export default function ConciergeBot() {
                                                     className="w-full bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-xs text-black dark:text-white placeholder:text-zinc-400"
                                                 />
                                                 <div className="flex gap-2">
-                                                    <select
-                                                        id="contact_type"
-                                                        className="w-1/2 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-[10px] text-black dark:text-white"
-                                                    >
-                                                        <option value="virtual">Virtual</option>
-                                                        <option value="presencial">Presencial</option>
-                                                    </select>
-                                                    <input
-                                                        id="contact_date"
-                                                        type="date"
-                                                        className="w-1/2 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-[10px] text-black dark:text-white"
-                                                    />
+                                                    <div className="w-1/2 space-y-1">
+                                                        <label className="text-[8px] uppercase font-bold text-zinc-500">Fecha</label>
+                                                        <input
+                                                            id="contact_date"
+                                                            type="date"
+                                                            min={new Date().toISOString().split('T')[0]}
+                                                            max={new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString().split('T')[0]}
+                                                            className="w-full bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-[10px] text-black dark:text-white"
+                                                        />
+                                                    </div>
+                                                    <div className="w-1/2 space-y-1">
+                                                        <label className="text-[8px] uppercase font-bold text-zinc-500">Hora (3h margen)</label>
+                                                        <select
+                                                            id="contact_time"
+                                                            className="w-full bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-lg p-2.5 text-[10px] text-black dark:text-white"
+                                                        >
+                                                            <option value="10:00">10:00 hrs</option>
+                                                            <option value="13:00">13:00 hrs</option>
+                                                            <option value="16:00">16:00 hrs</option>
+                                                            <option value="19:00">19:00 hrs</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <button
                                                     onClick={async () => {
@@ -212,12 +175,13 @@ export default function ConciergeBot() {
                                                         const phone = (document.getElementById('contact_whatsapp') as HTMLInputElement).value;
                                                         const email = (document.getElementById('contact_email') as HTMLInputElement).value;
                                                         const date = (document.getElementById('contact_date') as HTMLInputElement).value;
+                                                        const time = (document.getElementById('contact_time') as HTMLSelectElement).value;
 
-                                                        if (!name || !phone || !company) return alert('Por favor, completa los campos principales.');
+                                                        if (!name || !phone || !company || !email || !date) return alert('Por favor, completa todos los campos.');
 
                                                         setMessages(prev => [...prev, {
                                                             role: 'bot',
-                                                            text: `¡Perfecto ${name}! Estoy procesando tu solicitud de auditoría para ${company}...`,
+                                                            text: `¡Perfecto ${name}! Estoy procesando tu solicitud para el ${date} a las ${time}...`,
                                                             type: 'TEXT'
                                                         }]);
 
@@ -226,7 +190,7 @@ export default function ConciergeBot() {
                                                             const res = await fetch('/api/schedule', {
                                                                 method: 'POST',
                                                                 headers: { 'Content-Type': 'application/json' },
-                                                                body: JSON.stringify({ name, company, phone, email, date, intent: 'auditoria' })
+                                                                body: JSON.stringify({ name, company, phone, email, date, time, intent: 'auditoria' })
                                                             });
 
                                                             if (res.ok) {
@@ -245,7 +209,7 @@ export default function ConciergeBot() {
                                                                     role: 'bot',
                                                                     text: 'Abrir WhatsApp Directo',
                                                                     type: 'WA_LINK',
-                                                                    data: { url: `https://wa.me/522271009744?text=Hola,%20soy%20${encodeURIComponent(name)}%20de%20${encodeURIComponent(company)}.%20Acabo%20de%20agendar%20una%20auditoría%20en%20el%20sitio%20web.` }
+                                                                    data: { url: `https://wa.me/522271009744?text=Hola,%20soy%20${encodeURIComponent(name)}%20de%20${encodeURIComponent(company)}.%20Agendé%20auditoría%20para%20el%20${date}%20a%20las%20${time}.` }
                                                                 }]);
                                                             }
                                                         } catch (e) {

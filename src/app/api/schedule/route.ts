@@ -12,7 +12,9 @@ const WEBHOOK_URL = process.env.WHATSAPP_WEBHOOK_URL; // Para n8n o Evolution AP
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { name, phone, email, company, date, intent } = body;
+        const { name, phone, email, company, date, time, intent } = body;
+
+        console.log('API Attempting save for:', email, 'at URL:', supabaseUrl.substring(0, 15) + '...');
 
         // 1. Guardar en Supabase (Usando columnas reales de la BD)
         const { data, error } = await supabase
@@ -22,7 +24,7 @@ export async function POST(req: Request) {
                     full_name: name,
                     phone: phone,
                     email: email,
-                    notes: `Empresa: ${company} | Fecha: ${date}`,
+                    notes: `Empresa: ${company} | Fecha: ${date} | Hora: ${time || 'N/A'}`,
                     intent: intent || 'Auditoría Solicitada',
                     status: 'new'
                 }
@@ -30,8 +32,9 @@ export async function POST(req: Request) {
             .select();
 
         if (error) {
-            console.error('Error saving lead:', error);
-            // Si el error es por duplicado, intentamos ignorarlo y seguir con la notificación
+            console.error('❌ Supabase Save Error:', JSON.stringify(error, null, 2));
+        } else {
+            console.log('✅ Lead saved successfully in Supabase:', data[0]?.id);
         }
 
         // 2. Enviar Notificación a WhatsApp (vía Webhook n8n/Evolution)
